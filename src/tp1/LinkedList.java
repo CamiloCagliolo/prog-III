@@ -122,12 +122,24 @@ public class LinkedList<T> implements Iterable<T>{
 
     public static <S extends Comparable<S>> LinkedList<S> orderedIntersection(LinkedList<S> l1, LinkedList<S> l2){
         LinkedList<S> result = new LinkedList<>();
-        LinkedListIterator<S> iterator;
-        Node<S> newNode;
+        LinkedList<S> auxList = new LinkedList<>();
+        S aux;
         for(S elementFromL1 : l1){
             for(S elementFromL2 : l2){
                 if(elementFromL1.equals(elementFromL2)){
-                    //TODO: ver cómo meter de forma ordenada los elementos usando las funciones básicas del iterator y el compareTo().
+                    //TODO: Esto funciona, pero ver cómo meter de forma ordenada los elementos usando las funciones básicas del iterator.
+                    aux = result.extractFront();
+                    while(aux != null && aux.compareTo(elementFromL1) < 0){
+                        auxList.insertFront(aux);
+                        aux = result.extractFront();
+                    }
+                    if(auxList.isEmpty()){
+                        result.insertFront(aux);
+                    }
+                    result.insertFront(elementFromL1);
+                    while(auxList.size() > 0){
+                        result.insertFront(auxList.extractFront());
+                    }
                 }
             }
         }

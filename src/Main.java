@@ -20,6 +20,9 @@ public class Main {
         list2.add(9);
         list2.add(5);
 
+        System.out.println(list1);
+        System.out.println(list2);
+
         System.out.println(LinkedList.orderedIntersection(list1, list2));
 
     }
