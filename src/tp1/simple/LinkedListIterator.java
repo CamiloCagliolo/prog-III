@@ -1,4 +1,4 @@
-package tp1;
+package tp1.simple;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

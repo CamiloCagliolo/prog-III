@@ -1,4 +1,4 @@
-package tp1;
+package tp1.simple;
 
 public class Stack<T> {
     private LinkedList<T> list;

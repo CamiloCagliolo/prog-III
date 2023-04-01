@@ -1,7 +1,4 @@
-package tp1;
-
-import java.util.Iterator;
-import java.util.function.Consumer;
+package tp1.simple;
 
 public class LinkedList<T> implements Iterable<T>{
     private Node<T> first;
@@ -149,16 +146,26 @@ public class LinkedList<T> implements Iterable<T>{
     private static <S extends Comparable<S>> void insertWithOrder(LinkedList<S> list, S element){
         LinkedList<S> auxList = new LinkedList<>();
         S aux;
+
+        /* Saca el primer elemento de la lista. Lo compara con el elemento que quiere agregar. Si el elemento es mayor, entonces
+        *  lo guarda en otra lista y saca otro, y vuelve a comparar. Repite hasta sacar todos los elementos de la lista o encontrar uno que es mayor.*/
         aux = list.extractFront();
         while(aux != null && aux.compareTo(element) < 0){
             auxList.insertFront(aux);
             aux = list.extractFront();
         }
-        if(auxList.isEmpty()){
+
+        /* Si la primera comparación ya le dio que es mayor significa que el elemento entrante es menor a todos, así que vuelve a poner al que sacó.*/
+        if(auxList.isEmpty() && aux != null){
             list.insertFront(aux);
         }
+
+        /* Introduce el nuevo después de haber sacado todos los que son menores. Si ninguno era menor entonces va adelante.*/
         list.insertFront(element);
-        while(auxList.size() > 0){
+
+        /* Vuelve a meter todos los elementos que se sacaron de la lista, que quedaron guardados en la lista auxiliar.*/
+        int size = auxList.size;
+        for(int i = 0; i < size; i++){
             list.insertFront(auxList.extractFront());
         }
     }
