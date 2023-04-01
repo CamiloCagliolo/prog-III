@@ -4,23 +4,19 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class LinkedListIterator<T> implements Iterator<T> {
-    private Node<T> current;
+    private Node<T> Pointer;
 
     public LinkedListIterator(Node<T> head){
-        current = head;
+        Pointer = head;
     }
 
-    public T getCurrentContent(){
-        return current.getContent();
-    }
-
-    public Node<T> getCurrent(){
-        return current;
+    public Node<T> getPointer(){
+        return Pointer;
     }
 
     @Override
     public boolean hasNext() {
-        return current != null;
+        return Pointer != null;
     }
 
     @Override
@@ -28,8 +24,8 @@ public class LinkedListIterator<T> implements Iterator<T> {
         if(!hasNext()){
             throw new NoSuchElementException();
         }
-        T content = current.getContent();
-        current = current.getNext();
+        T content = Pointer.getContent();
+        Pointer = Pointer.getNext();
         return content;
     }
 }

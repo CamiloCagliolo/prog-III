@@ -24,6 +24,8 @@ public class Main {
         System.out.println(list2);
 
         System.out.println(LinkedList.orderedIntersection(list1, list2));
+        LinkedList.substraction(list1, list2);
+        System.out.println(list1);
 
     }
 }

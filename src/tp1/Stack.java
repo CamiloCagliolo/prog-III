@@ -21,7 +21,8 @@ public class Stack<T> {
 
     public void reverse(){
         LinkedList<T> newList = new LinkedList<>();
-        for(int i = 0; i < list.size(); i++){
+        int size = list.size();
+        for(int i = 0; i < size; i++){
             newList.insertFront(list.extractFront());
         }
         list = newList;
