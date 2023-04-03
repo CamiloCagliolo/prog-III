@@ -2,6 +2,7 @@ package tp1.simple;
 
 public class LinkedList<T> implements Iterable<T>{
     private Node<T> first;
+    private Node<T> last;
     private int size;
 
     public LinkedList(){
@@ -13,7 +14,7 @@ public class LinkedList<T> implements Iterable<T>{
         Node<T> node = new Node<>(content);
         node.setNext(first);
         first = node;
-        size++;
+        incrementSize();
     }
 
     public T extractFront(){
@@ -23,7 +24,7 @@ public class LinkedList<T> implements Iterable<T>{
         Node<T> second = first.getNext();
         T content = first.getContent();
         first = second;
-        size--;
+        decrementSize();
         return content;
     }
 
@@ -31,14 +32,12 @@ public class LinkedList<T> implements Iterable<T>{
         Node<T> node = new Node<>(content);
         if(isEmpty()){
             first = node;
-            return;
         }
-        Node<T> aux = first;
-        while(aux.hasNext()){
-            aux = aux.getNext();
+        else{
+            last.setNext(node);
         }
-        aux.setNext(node);
-        size++;
+        last = node;
+        incrementSize();
     }
 
     public void delete(T content){
@@ -79,6 +78,14 @@ public class LinkedList<T> implements Iterable<T>{
 
     public int size(){
         return size;
+    }
+
+    private void incrementSize(){
+        size++;
+    }
+
+    private void decrementSize(){
+        size--;
     }
 
     public int indexOf(T object){
@@ -125,48 +132,50 @@ public class LinkedList<T> implements Iterable<T>{
         return new LinkedListIterator<T>(first);
     }
 
-    public static <S extends Comparable<S>> LinkedList<S> orderedIntersection(LinkedList<S> l1, LinkedList<S> l2){
-        LinkedList<S> result = new LinkedList<>();
-        for(S elementFromL1 : l1){
-            for(S elementFromL2 : l2){
-                if(elementFromL1.equals(elementFromL2)){
-                    LinkedList.insertWithOrder(result, elementFromL1);
-                }
-            }
-        }
-        return result;
-    }
-
     public static <S> void substraction(LinkedList<S> l1, LinkedList<S> l2){
         for(S el2 : l2){
            l1.delete(el2);
         }
     }
 
-    private static <S extends Comparable<S>> void insertWithOrder(LinkedList<S> list, S element){
-        LinkedList<S> auxList = new LinkedList<>();
-        S aux;
+    public static <S extends Comparable<S>> LinkedList<S> orderedIntersection(LinkedList<S> l1, LinkedList<S> l2){
+        LinkedList<S> result = new LinkedList<>();
+        for(S elementFromL1 : l1){
+            for(S elementFromL2 : l2){
+                if(elementFromL1.equals(elementFromL2) && !result.contains(elementFromL1)){
+                    orderedAdd(result, elementFromL1);
+                }
+            }
+        }
+        return result;
+    }
 
-        /* Saca el primer elemento de la lista. Lo compara con el elemento que quiere agregar. Si el elemento es mayor, entonces
-        *  lo guarda en otra lista y saca otro, y vuelve a comparar. Repite hasta sacar todos los elementos de la lista o encontrar uno que es mayor.*/
-        aux = list.extractFront();
-        while(aux != null && aux.compareTo(element) < 0){
-            auxList.insertFront(aux);
-            aux = list.extractFront();
+    public static <S extends Comparable<S>> void orderedAdd(LinkedList<S> list, S element){
+        LinkedListIterator<S> iterator = list.iterator();
+        Node<S> pointer = iterator.getPointer();
+
+        if(list.isEmpty() || (element.compareTo(pointer.getContent()) < 0)){
+            list.insertFront(element);
+            return;
         }
 
-        /* Si la primera comparación ya le dio que es mayor significa que el elemento entrante es menor a todos, así que vuelve a poner al que sacó.*/
-        if(auxList.isEmpty() && aux != null){
-            list.insertFront(aux);
+        Node<S> newNode = new Node<>(element);
+        Node<S> next = pointer.getNext();
+        boolean found = false;
+
+        while(next != null && !found){
+            if(element.compareTo(next.getContent()) > 0 ){
+                iterator.next();
+                pointer = iterator.getPointer();
+                next = pointer.getNext();
+            }
+            else{
+                found = true;
+            }
         }
 
-        /* Introduce el nuevo después de haber sacado todos los que son menores. Si ninguno era menor entonces va adelante.*/
-        list.insertFront(element);
-
-        /* Vuelve a meter todos los elementos que se sacaron de la lista, que quedaron guardados en la lista auxiliar.*/
-        int size = auxList.size;
-        for(int i = 0; i < size; i++){
-            list.insertFront(auxList.extractFront());
-        }
+        newNode.setNext(next);
+        pointer.setNext(newNode);
+        list.incrementSize();
     }
 }
