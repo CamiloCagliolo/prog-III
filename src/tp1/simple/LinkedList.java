@@ -1,45 +1,27 @@
 package tp1.simple;
 
-public class LinkedList<T> implements Iterable<T>{
-    private Node<T> first;
-    private Node<T> last;
-    private int size;
+import tp1.AbstractLinkedList;
 
-    public LinkedList(){
-        first = null;
-        size = 0;
-    }
+public class LinkedList<T> extends AbstractLinkedList<T, Node<T>> implements Iterable<T>{
 
+    @Override
     public void insertFront(T content){
         Node<T> node = new Node<>(content);
-        node.setNext(first);
-        first = node;
-        incrementSize();
+        super.insertFront(node);
     }
 
+    @Override
     public T extractFront(){
-        if(isEmpty()){
-            return null;
-        }
-        Node<T> second = first.getNext();
-        T content = first.getContent();
-        first = second;
-        decrementSize();
-        return content;
+       return super.extractFront();
     }
 
+    @Override
     public void add(T content){
         Node<T> node = new Node<>(content);
-        if(isEmpty()){
-            first = node;
-        }
-        else{
-            last.setNext(node);
-        }
-        last = node;
-        incrementSize();
+        super.add(node);
     }
 
+    @Override
     public void delete(T content){
         int deleted = 0;
         while(first != null && first.getContent().equals(content)){
@@ -59,72 +41,15 @@ public class LinkedList<T> implements Iterable<T>{
         size = size - deleted;
     }
 
-    public boolean isEmpty(){
-        return first == null;
-    }
-
     public T get(int index){
         if(isEmpty() || index < 0 || index >= size){
             return null;
         }
         Node<T> aux = first;
         for(int i = 1; i <= index; i++){
-            if(aux.hasNext()){
-                aux = aux.getNext();
-            }
+            aux = aux.getNext();
         }
         return aux.getContent();
-    }
-
-    public int size(){
-        return size;
-    }
-
-    private void incrementSize(){
-        size++;
-    }
-
-    private void decrementSize(){
-        size--;
-    }
-
-    public int indexOf(T object){
-        if(isEmpty()){
-            return -1;
-        }
-        int index = 0;
-        for(T element : this){
-            if(element.equals(object)){
-                return index;
-            }
-            index++;
-        }
-        return -1;
-    }
-
-    public boolean contains(T object){
-        if(isEmpty()){
-            return false;
-        }
-        for(T element : this){
-            if(element.equals(object)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public String toString(){
-        String result = "";
-        if(!isEmpty()){
-            int index = 0;
-            for(T element : this){
-                result += "[" + index + "] => " + element + "\n";
-                index++;
-            }
-        }
-        return result;
     }
 
     @Override

@@ -1,4 +1,6 @@
-package tp1.simple;
+package tp1;
+
+import tp1.simple.LinkedList;
 
 public class Stack<T> {
     private LinkedList<T> list;

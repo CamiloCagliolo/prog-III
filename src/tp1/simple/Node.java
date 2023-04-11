@@ -1,8 +1,8 @@
 package tp1.simple;
 
-public class Node<T> {
-    private Node<T> next;
-    private T content;
+import tp1.AbstractNode;
+
+public class Node<T> extends AbstractNode<T, Node<T>> {
 
     public Node(Node<T> n, T c){
         next = n;
@@ -12,25 +12,5 @@ public class Node<T> {
     public Node(T c){
         next = null;
         content = c;
-    }
-
-    public boolean hasNext(){
-        return next != null;
-    }
-
-    public void setNext(Node<T> n){
-        next = n;
-    }
-
-    public void setContent(T c){
-        content = c;
-    }
-
-    public Node<T> getNext(){
-        return next;
-    }
-
-    public T getContent(){
-        return content;
     }
 }

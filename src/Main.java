@@ -1,8 +1,9 @@
+import tp1.doublelist.DoubleLinkedList;
 import tp1.simple.LinkedList;
 
 public class Main {
     public static void main(String[] args) {
-        LinkedList<Integer> list1 = new LinkedList<>();
+        /*LinkedList<Integer> list1 = new LinkedList<>();
 
         list1.add(5);
         list1.add(3);
@@ -23,7 +24,36 @@ public class Main {
         System.out.println(list1);
         System.out.println(list2);
 
-        System.out.println(LinkedList.orderedIntersection(list1, list2));
+        System.out.println(LinkedList.orderedIntersection(list1, list2));*/
 
+        /*DoubleLinkedList<Integer> doublelist = new DoubleLinkedList<>();
+
+        doublelist.add(2);
+        doublelist.add(8);
+        doublelist.add(3);
+        doublelist.add(1);
+        doublelist.add(9);
+        doublelist.add(14);
+        doublelist.add(12);
+        doublelist.add(13);
+
+        System.out.println(doublelist);
+        System.out.println(doublelist.get(6));*/
+
+        System.out.println(isPalindrome("acba"));
+
+    }
+
+    public static boolean isPalindrome(String s){
+        if(s.length() == 1 || s.length() == 0){
+            return true;
+        }
+
+        if(s.charAt(0) == s.charAt(s.length()-1)){
+            return isPalindrome(s.substring(1,s.length()-1));
+        }
+        else{
+            return false;
+        }
     }
 }
