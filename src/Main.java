@@ -38,10 +38,16 @@ public class Main {
         doublelist.add(13);
 
         System.out.println(doublelist);
-        System.out.println(doublelist.get(6));*/
+        System.out.println(doublelist.get(6));
 
-        System.out.println(isPalindrome("acba"));
+        System.out.println(isPalindrome("abcba"));*/
 
+        Integer[] arr = new Integer[10];
+        for(int i = 0; i < arr.length; i++){
+            arr[i] = i+1;
+        }
+
+        System.out.println(arrayIsOrdered(arr));
     }
 
     public static boolean isPalindrome(String s){
@@ -51,6 +57,22 @@ public class Main {
 
         if(s.charAt(0) == s.charAt(s.length()-1)){
             return isPalindrome(s.substring(1,s.length()-1));
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static <S extends Comparable<S>> boolean arrayIsOrdered(S[] arr){
+        return check(0, arr);
+    }
+
+    public static <S extends Comparable<S>> boolean check(int index, S[] arr){
+        if(index + 1 >= arr.length){
+           return true;
+        }
+        if(arr[index].compareTo(arr[index+1]) < 0){
+            return check(index+1, arr);
         }
         else{
             return false;
