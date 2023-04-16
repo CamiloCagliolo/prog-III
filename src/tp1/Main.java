@@ -1,3 +1,5 @@
+package tp1;
+
 import tp1.doublelist.DoubleLinkedList;
 import tp1.simple.LinkedList;
 
