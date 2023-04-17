@@ -49,9 +49,61 @@ public class Tree {
 
     }
 
-    /*public boolean delete(Integer el){
-
-    }*/
+    public boolean delete(Integer el){
+        return delete(el, root);
+    }
+    
+    private boolean delete(Integer el, Node n){
+        if(n.hasNoChild()){
+            return false;
+        }
+        if(el.compareTo(n.getValue()) <= 0){
+            Node leftChild = n.getLeft();
+            if(el.compareTo(leftChild.getValue()) == 0){
+                if(leftChild.hasNoChild()){
+                    n.setLeft(null);
+                } else if (leftChild.hasLeft() && leftChild.hasRight()) {
+                    Node rightmost = new Node(getRightmostNode(leftChild.getLeft()).getValue());
+                    rightmost.setLeft(leftChild.getLeft());
+                    rightmost.setRight(leftChild.getRight());
+                    n.setLeft(rightmost);
+                    delete(rightmost.getValue(), rightmost.getLeft());
+                } else if(leftChild.hasLeft()){
+                    n.setLeft(leftChild.getLeft());
+                }
+                else if(leftChild.hasRight()){
+                    n.setLeft(leftChild.getRight());
+                }
+                return true;
+            }
+            else{
+                return delete(el, leftChild);
+            }
+        }
+        else{
+            Node rightChild = n.getRight();
+            if(el.compareTo(rightChild.getValue()) == 0){
+                if(rightChild.hasNoChild()){
+                    n.setRight(null);
+                } else if (rightChild.hasLeft() && rightChild.hasRight()) {
+                    Node rightmost = new Node(getRightmostNode(rightChild.getLeft()).getValue());
+                    rightmost.setLeft(rightChild.getLeft());
+                    rightmost.setRight(rightChild.getRight());
+                    n.setRight(rightmost);
+                    delete(rightmost.getValue(), rightmost);
+                } else if(rightChild.hasLeft()){
+                    n.setRight(rightChild.getLeft());
+                }
+                else if(rightChild.hasRight()){
+                    n.setRight(rightChild.getRight());
+                }
+                return true;
+            }
+            else{
+                return delete(el, rightChild);
+            }
+        }
+    }
 
     public int getHeight(){
         if(isEmpty()){
