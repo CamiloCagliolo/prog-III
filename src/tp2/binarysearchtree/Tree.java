@@ -14,9 +14,11 @@ public class Tree {
         return false;
     }
 
+    // Complexity O(1)
     public boolean isEmpty(){
         return root == null;
     }
+
 
     public void insert(Integer el){
         if(isEmpty()){
@@ -26,6 +28,7 @@ public class Tree {
         insert(el, root);
     }
 
+    // Complexity O(n) (peor caso, enredadera: se insertan los valores en orden). Arbol balanceado: O(h)
     private void insert(Integer el, Node n){
         if(n.getValue().compareTo(el) == 0){
             return;
@@ -52,15 +55,20 @@ public class Tree {
     public boolean delete(Integer el){
         return delete(el, root);
     }
-    
+
+    // Complexity: peores casos son 1) quitar una hoja de una enredadera, O(n) o
+    // 2) quitar un nodo interno, lo cual conlleva buscarlo (O(m)),
+    // buscar su rightmostChild (O(n-m)),
+    // y luego borrar ese hijo, lo cual es orden O(n-m). Finalmente O(m) + O(n-m) + O(n-m) = O(m+n-m+n-m) = O(2n-m) = O(2n) = O(n). Arbol balanceado: O(h)
+
     private boolean delete(Integer el, Node n){
-        if(n.hasNoChild()){
+        if(n.hasNoChildren()){
             return false;
         }
         if(el.compareTo(n.getValue()) <= 0){
             Node leftChild = n.getLeft();
             if(el.compareTo(leftChild.getValue()) == 0){
-                if(leftChild.hasNoChild()){
+                if(leftChild.hasNoChildren()){
                     n.setLeft(null);
                 } else if (leftChild.hasLeft() && leftChild.hasRight()) {
                     Node rightmost = new Node(getRightmostNode(leftChild.getLeft()).getValue());
@@ -83,7 +91,7 @@ public class Tree {
         else{
             Node rightChild = n.getRight();
             if(el.compareTo(rightChild.getValue()) == 0){
-                if(rightChild.hasNoChild()){
+                if(rightChild.hasNoChildren()){
                     n.setRight(null);
                 } else if (rightChild.hasLeft() && rightChild.hasRight()) {
                     Node rightmost = new Node(getRightmostNode(rightChild.getLeft()).getValue());
@@ -105,32 +113,7 @@ public class Tree {
         }
     }
 
-    public int getHeight(){
-        if(isEmpty()){
-            return 0;
-        }
-        return getDepth(root);
-    }
-
-    private int getDepth(Node n){
-        if(n == null){
-            return 0;
-        }
-        if(n.hasNoChild()){
-            return 1;
-        }
-
-        int leftTreeDepth = getDepth(n.getLeft());
-        int rightTreeDepth = getDepth(n.getRight());
-
-        if(leftTreeDepth > rightTreeDepth){
-            return leftTreeDepth + 1;
-        }
-        else{
-            return rightTreeDepth + 1;
-        }
-    }
-
+    // Complexity: O(n) for all
     public void printPreOrder(){
         printPreOrder(root);
     }
@@ -173,6 +156,35 @@ public class Tree {
         System.out.println(n.getValue() + " ");
     }
 
+    // Complexity: O(n), no pasa más de una vez por cada elemento. Arbol balanceado: O(h)
+    public int getHeight(){
+        if(isEmpty()){
+            return 0;
+        }
+        return getDepth(root);
+    }
+
+
+    private int getDepth(Node n){
+        if(n == null){
+            return 0;
+        }
+        if(n.hasNoChildren()){
+            return 1;
+        }
+
+        int leftTreeDepth = getDepth(n.getLeft());
+        int rightTreeDepth = getDepth(n.getRight());
+
+        if(leftTreeDepth > rightTreeDepth){
+            return leftTreeDepth + 1;
+        }
+        else{
+            return rightTreeDepth + 1;
+        }
+    }
+
+    //Complexity: O(n^2). Peor caso es que tenga que pasar por n nodos y por cada uno llame a getDepth, que es de orden O(n). luego, n*O(n) = O(n^2). En un mejor caso, el árbol es balanceado y es O(h^2)
     public List<Integer> getLongestBranch(){
         ArrayList<Integer> arr = new ArrayList<>();
         if(isEmpty()){
@@ -194,6 +206,7 @@ public class Tree {
         }
     }
 
+    // Complexity: O(n)
     public List<Integer> getFrontier(){
         ArrayList<Integer> arr = new ArrayList<>();
         getFrontier(root, arr);
@@ -204,7 +217,7 @@ public class Tree {
         if(n == null){
             return;
         }
-        if(n.hasNoChild()){
+        if(n.hasNoChildren()){
             arr.add(n.getValue());
         }
         else{
@@ -213,6 +226,7 @@ public class Tree {
         }
     }
 
+    // Complexity: O(n). Arbol balanceado: O(h)
     public Integer getMaxElement(){
         return getRightmostNode(root).getValue();
     }
@@ -224,6 +238,7 @@ public class Tree {
         return n;
     }
 
+    // Complexity: O(n). En un árbol balanceado, O(n/2^level), por ser la máxima cantidad de elementos en un determinado nivel.
     public List<Integer> getElementsAtLevel(int level){
         ArrayList<Integer> arr = new ArrayList<>();
         getElementsAtLevel(root, level, 0, arr);
@@ -240,6 +255,43 @@ public class Tree {
         }
         if(current == level){
             arr.add(n.getValue());
+        }
+    }
+
+    public int sumInternalNodes(){
+        if(isEmpty()){
+            return 0;
+        }
+        return sumInternalNodes(root);
+    }
+
+    private int sumInternalNodes(Node n) {
+        if (n == null || n.hasNoChildren()) {
+            return 0;
+        }
+        return sumInternalNodes(n.getRight()) + sumInternalNodes(n.getLeft()) + n.getValue();
+    }
+
+    public List<Integer> getIntegersGreaterThan(int k){
+        ArrayList<Integer> arr = new ArrayList<>();
+        if(isEmpty()){
+            return arr;
+        }
+        storeIntegersGreaterThan(k, root, arr);
+        return arr;
+    }
+
+    private void storeIntegersGreaterThan(int k, Node n, ArrayList<Integer> arr){
+        if(n == null){
+            return;
+        }
+        if(n.getValue() <= k){
+            storeIntegersGreaterThan(k, n.getRight(), arr);
+        }
+        else{
+            storeIntegersGreaterThan(k, n.getLeft(), arr);
+            arr.add(n.getValue());
+            storeIntegersGreaterThan(k, n.getRight(), arr);
         }
     }
 

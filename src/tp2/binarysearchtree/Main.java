@@ -23,11 +23,7 @@ public class Main {
         System.out.println("Frontera: " + tree.getFrontier());
         System.out.println("Mayor valor: " + tree.getMaxElement());
         System.out.println("Elementos en el nivel 2: " + tree.getElementsAtLevel(2));
-
-        tree.delete(5);
-
-        tree.printInOrder();
-        System.out.println(tree.getElementsAtLevel(2));
-        System.out.println(tree.getLongestBranch());
+        System.out.println("Suma de los nodos internos: " + tree.sumInternalNodes());
+        System.out.println("Elementos mayores a -2: " + tree.getIntegersGreaterThan(-2));
     }
 }

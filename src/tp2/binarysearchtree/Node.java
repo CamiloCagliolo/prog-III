@@ -41,7 +41,7 @@ public class Node {
         return right != null;
     }
 
-    public boolean hasNoChild(){
+    public boolean hasNoChildren(){
         return !hasLeft() && !hasRight();
     }
 }
