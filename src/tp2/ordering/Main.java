@@ -4,13 +4,21 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String [] args){
-        int[] arr = createRandomArray(5, 0, 100);
-        arr[1] = arr[0];
-        arr[2] = arr[0];
-        System.out.println(imprimirArreglo(arr));
-        QuickSort sorter = new QuickSort();
-        sorter.sort(arr);
-        System.out.println(imprimirArreglo(arr));
+        int[] arrOriginal = createRandomArray(10000000, 0, 100000000);
+
+        int[] arr1 = arrOriginal.clone();
+        QuickSort sorter1 = new QuickSort();
+        long startTime1 = System.currentTimeMillis();
+        sorter1.sort(arr1);
+        long endTime1 = System.currentTimeMillis();
+        System.out.println("Total execution time for quicksort: " + (endTime1 - startTime1));
+
+        int[] arr2 = arrOriginal.clone();
+        MergeSort sorter2 = new MergeSort();
+        long startTime2 = System.currentTimeMillis();
+        sorter2.sort(arr2);
+        long endTime2 = System.currentTimeMillis();
+        System.out.println("Total execution time for mergesort: " + (endTime2 - startTime2));
     }
 
     //Complexity: O(n^2)
