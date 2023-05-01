@@ -1,9 +1,15 @@
 package tp2.binarysearchtree;
 
 public class Node {
-    private Integer value;
-    private Node left;
-    private Node right;
+    protected Integer value;
+    protected Node left;
+    protected Node right;
+
+    public Node(){
+        value = null;
+        left = null;
+        right = null;
+    }
 
     public Node(Integer v){
         value = v;

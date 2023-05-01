@@ -20,6 +20,7 @@ public class Tree {
     }
 
 
+    // Complexity O(n) (peor caso, enredadera: se insertan los valores en orden). Arbol balanceado: O(h)
     public void insert(Integer el){
         if(isEmpty()){
             root = new Node(el);
@@ -28,7 +29,7 @@ public class Tree {
         insert(el, root);
     }
 
-    // Complexity O(n) (peor caso, enredadera: se insertan los valores en orden). Arbol balanceado: O(h)
+
     private void insert(Integer el, Node n){
         if(n.getValue().compareTo(el) == 0){
             return;
@@ -52,14 +53,14 @@ public class Tree {
 
     }
 
-    public boolean delete(Integer el){
-        return delete(el, root);
-    }
-
     // Complexity: peores casos son 1) quitar una hoja de una enredadera, O(n) o
     // 2) quitar un nodo interno, lo cual conlleva buscarlo (O(m)),
     // buscar su rightmostChild (O(n-m)),
-    // y luego borrar ese hijo, lo cual es orden O(n-m). Finalmente O(m) + O(n-m) + O(n-m) = O(m+n-m+n-m) = O(2n-m) = O(2n) = O(n). Arbol balanceado: O(h)
+    // y luego borrar ese hijo, lo cual es orden O(n-m). Finalmente O(m) + O(n-m) + O(n-m) = O(m+n-m+n-m) = O(2n-m) = O(2n) = O(n). En un arbol balanceado: O(h)
+
+    public boolean delete(Integer el){
+        return delete(el, root);
+    }
 
     private boolean delete(Integer el, Node n){
         if(n.hasNoChildren()){
@@ -113,7 +114,7 @@ public class Tree {
         }
     }
 
-    // Complexity: O(n) for all
+    // Complexity: O(n) for all prints
     public void printPreOrder(){
         printPreOrder(root);
     }
@@ -245,6 +246,7 @@ public class Tree {
         return arr;
     }
 
+
     private void getElementsAtLevel(Node n, int level, int current, ArrayList<Integer> arr){
         if(n == null){
             return;
@@ -258,6 +260,7 @@ public class Tree {
         }
     }
 
+    //Complexity: O(n). Needs to get to every node.
     public int sumInternalNodes(){
         if(isEmpty()){
             return 0;
@@ -272,6 +275,7 @@ public class Tree {
         return sumInternalNodes(n.getRight()) + sumInternalNodes(n.getLeft()) + n.getValue();
     }
 
+    //Complexity: O(n), needs to access every node.
     public List<Integer> getIntegersGreaterThan(int k){
         ArrayList<Integer> arr = new ArrayList<>();
         if(isEmpty()){
@@ -294,5 +298,4 @@ public class Tree {
             storeIntegersGreaterThan(k, n.getRight(), arr);
         }
     }
-
 }
