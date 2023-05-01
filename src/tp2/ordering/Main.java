@@ -11,14 +11,23 @@ public class Main {
         long startTime1 = System.currentTimeMillis();
         sorter1.sort(arr1);
         long endTime1 = System.currentTimeMillis();
-        System.out.println("Total execution time for quicksort: " + (endTime1 - startTime1));
+        long duration1 = endTime1 - startTime1;
+        System.out.println("Total execution time for quicksort: " + duration1);
 
         int[] arr2 = arrOriginal.clone();
         MergeSort sorter2 = new MergeSort();
         long startTime2 = System.currentTimeMillis();
         sorter2.sort(arr2);
         long endTime2 = System.currentTimeMillis();
-        System.out.println("Total execution time for mergesort: " + (endTime2 - startTime2));
+        long duration2 = endTime2 - startTime2;
+        System.out.println("Total execution time for mergesort: " + duration2);
+
+        int[] arr3 = arrOriginal.clone();
+        long startTime3 = System.currentTimeMillis();
+        Arrays.sort(arr3);
+        long endTime3 = System.currentTimeMillis();
+        long duration3 = endTime3 - startTime3;
+        System.out.println("Total execution time for Array.sort(): " + duration3);
     }
 
     //Complexity: O(n^2)
