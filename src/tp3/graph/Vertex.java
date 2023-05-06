@@ -1,4 +1,4 @@
-package tp3;
+package tp3.graph;
 import java.util.ArrayList;
 
 public class Vertex<T> {
@@ -36,5 +36,10 @@ public class Vertex<T> {
 
     public char getColour(){
         return colour;
+    }
+
+    @Override
+    public String toString(){
+        return "Name: " + name + ", Value: " + value;
     }
 }

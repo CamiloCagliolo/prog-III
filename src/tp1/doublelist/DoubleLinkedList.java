@@ -29,7 +29,6 @@ public class DoubleLinkedList<T> extends AbstractLinkedList<T, DoubleNode<T>> im
         DoubleNode<T> node = new DoubleNode<>(content);
         DoubleNode<T> previous = super.add(node);
         node.setPrevious(previous);
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package tp3;
+package tp3.graph;
 
 public class Edge<T> {
     private Vertex<T> v1;
@@ -6,10 +6,14 @@ public class Edge<T> {
     private double weight;
     private String label;
 
-    public Edge(Vertex<T> v1, Vertex<T> v2){
+    public Edge(Vertex<T> v1, Vertex<T> v2, Double weight, String label){
         this.v1 = v1;
         this.v2 = v2;
-        weight = 1;
+        this.weight = 1;
+        if(weight != null){
+            this.weight = weight;
+        }
+        this.label = label;
     }
 
     public Vertex<T> getV2(){
