@@ -40,4 +40,30 @@ public class DirectedGraph<T> {
         edge.setLabel(label);
         v1.addEdge(edge);
     }
+
+    public void depthFirstSearch(){
+        for(Vertex<T> v : vertices.values()){
+            v.setColour('w');
+        }
+
+        for(Vertex<T> v : vertices.values()){
+            if(v.getColour() == 'w'){
+                v.setColour('y');
+                depthFirstSearch(v);
+            }
+        }
+    }
+
+    protected void depthFirstSearch(Vertex<T> v){
+        v.setColour('y');
+        for(Edge<T> e : v.getAdjacency()){
+            Vertex<T> endVertex = e.getV2();
+             if(endVertex.getColour() == 'w') {
+                 System.out.println(endVertex.getName());
+                 endVertex.setColour('y');
+                 depthFirstSearch(endVertex);
+             }
+        }
+        v.setColour('b');
+    }
 }

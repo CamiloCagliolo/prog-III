@@ -12,6 +12,10 @@ public class Edge<T> {
         weight = 1;
     }
 
+    public Vertex<T> getV2(){
+        return v2;
+    }
+
     public double getWeight() {
         return weight;
     }
