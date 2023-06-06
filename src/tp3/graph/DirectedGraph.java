@@ -1,6 +1,7 @@
 package tp3.graph;
 import tp1.simple.LinkedList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DirectedGraph<T> {
@@ -24,6 +25,22 @@ public class DirectedGraph<T> {
         v1.addEdge(edge);
     }
 
+    public ArrayList<Vertex<T>> getVertices(){
+        return new ArrayList<>(vertices.values());
+    }
+
+    public ArrayList<Edge<T>> getEdges(){
+        ArrayList<Edge<T>> edges = new ArrayList<>();
+        for(Vertex<T> v : vertices.values()){
+            edges.addAll(v.getAdjacency());
+        }
+        return edges;
+    }
+
+    public Vertex<T> getVertex(String key){
+        return vertices.get(key);
+    }
+
     public boolean hasCycles(){
         for(Vertex<T> v : vertices.values()){
             v.setColour('w');
@@ -45,7 +62,7 @@ public class DirectedGraph<T> {
     protected boolean hasCycles(Vertex<T> v){
         v.setColour('y');
         for(Edge<T> e : v.getAdjacency()){
-            Vertex<T> endVertex = e.getV2();
+            Vertex<T> endVertex = e.getDestination();
             if(endVertex.getColour() == 'w') {
                 endVertex.setColour('y');
                 return hasCycles(endVertex);
@@ -58,7 +75,8 @@ public class DirectedGraph<T> {
         return false;
     }
 
-    public void depthFirstSearch(){
+    //PRINTING METHODS
+    public void printByDepthFirstSearch(){
         for(Vertex<T> v : vertices.values()){
             v.setColour('w');
         }
@@ -66,25 +84,25 @@ public class DirectedGraph<T> {
         for(Vertex<T> v : vertices.values()){
             if(v.getColour() == 'w'){
                 v.setColour('y');
-                depthFirstSearch(v);
+                printByDepthFirstSearch(v);
             }
         }
     }
 
-    protected void depthFirstSearch(Vertex<T> v){
+    protected void printByDepthFirstSearch(Vertex<T> v){
         v.setColour('y');
         for(Edge<T> e : v.getAdjacency()){
-            Vertex<T> endVertex = e.getV2();
+            Vertex<T> endVertex = e.getDestination();
              if(endVertex.getColour() == 'w') {
                  System.out.println(endVertex);
                  endVertex.setColour('y');
-                 depthFirstSearch(endVertex);
+                 printByDepthFirstSearch(endVertex);
              }
         }
         v.setColour('b');
     }
 
-    public void breadthFirstSearch(){
+    public void printByBreadthFirstSearch(){
         LinkedList<Vertex<T>> queue = new LinkedList<>();
         for(Vertex<T> v : vertices.values()){
             v.setColour('w');
@@ -92,19 +110,19 @@ public class DirectedGraph<T> {
 
         for(Vertex<T> v : vertices.values()){
             if(v.getColour() == 'w') {
-                breadthFirstSearch(v, queue);
+                printByBreadthFirstSearch(v, queue);
             }
         }
     }
 
-    protected void breadthFirstSearch(Vertex<T> v, LinkedList<Vertex<T>> queue){
+    protected void printByBreadthFirstSearch(Vertex<T> v, LinkedList<Vertex<T>> queue){
         v.setColour('b');
         queue.add(v);
 
         while(!queue.isEmpty()){
             Vertex<T> vertex = queue.extractFront();
             for(Edge<T> e : vertex.getAdjacency()){
-                Vertex<T> adjacent = e.getV2();
+                Vertex<T> adjacent = e.getDestination();
                 if(adjacent.getColour() == 'w'){
                     adjacent.setColour('b');
                     System.out.println(adjacent);
