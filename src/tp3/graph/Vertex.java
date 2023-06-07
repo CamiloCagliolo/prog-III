@@ -40,6 +40,6 @@ public class Vertex<T> {
 
     @Override
     public String toString(){
-        return "Name: " + name + ", Value: " + value;
+        return "Vertex " + name + "(" + value + ")";
     }
 }
