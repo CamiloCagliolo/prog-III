@@ -41,40 +41,6 @@ public class DirectedGraph<T> {
         return vertices.get(key);
     }
 
-    public boolean hasCycles(){
-        for(Vertex<T> v : vertices.values()){
-            v.setColour('w');
-        }
-
-        for(Vertex<T> v : vertices.values()){
-            boolean found = false;
-            if(v.getColour() == 'w'){
-                v.setColour('y');
-                found = hasCycles(v);
-            }
-            if(found){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected boolean hasCycles(Vertex<T> v){
-        v.setColour('y');
-        for(Edge<T> e : v.getAdjacency()){
-            Vertex<T> endVertex = e.getDestination();
-            if(endVertex.getColour() == 'w') {
-                endVertex.setColour('y');
-                return hasCycles(endVertex);
-            }
-            else if(endVertex.getColour() == 'y'){
-                return true;
-            }
-        }
-        v.setColour('b');
-        return false;
-    }
-
     //PRINTING METHODS
     public void printByDepthFirstSearch(){
         for(Vertex<T> v : vertices.values()){

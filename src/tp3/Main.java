@@ -21,7 +21,6 @@ public class Main {
         graph.addVertex("11", 11);
         graph.addVertex("12", 12);
 
-
         //Creation of 14 edges
         graph.addEdge("1", "2", 1.0, "1-2");
         graph.addEdge("1", "3", 1.0, "1-3");
@@ -38,8 +37,8 @@ public class Main {
         graph.addEdge("11", "8", 1.0, "11-8");
         graph.addEdge("10", "7", 1.0, "10-7");
 
-        System.out.println("Graph has cycles: " + graph.hasCycles());
         GraphServices<Integer> graphServices = new GraphServices<Integer>(graph);
+        System.out.println("Graph has cycles: " + graphServices.hasCycles());
         System.out.println("Longest path from 1 to 12: " + graphServices.largestPathFromV1ToV2("1", "12"));
         System.out.println("All the vertices with a path to 7: " + graphServices.getAllStartPointsTo("7"));
     }
