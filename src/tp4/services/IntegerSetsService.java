@@ -17,11 +17,11 @@ public class IntegerSetsService {
     }
 
     public HashSet<HashSet<Integer>> getAllSubsetsWhoseSumIsM() {
-        backtracking(new HashSet<Integer>(), set);
+        backtrackingSubsetSumM(new HashSet<Integer>(), set);
         return solutions;
     }
 
-    public void backtracking(HashSet<Integer> currentSet, HashSet<Integer> remainingSet) {
+    public void backtrackingSubsetSumM(HashSet<Integer> currentSet, HashSet<Integer> remainingSet) {
         //Condición de corte
         if(remainingSet.isEmpty()){
             if(sumElements(currentSet) == m){
@@ -42,8 +42,8 @@ public class IntegerSetsService {
         HashSet<Integer> setWithElement = new HashSet<>(currentSet);
         setWithElement.add(element);
 
-        backtracking(setWithElement, remainingSet);
-        backtracking(new HashSet<>(currentSet), remainingSet);
+        backtrackingSubsetSumM(setWithElement, remainingSet);
+        backtrackingSubsetSumM(new HashSet<>(currentSet), remainingSet);
     }
 
     private int sumElements(HashSet<Integer> set){
@@ -52,5 +52,34 @@ public class IntegerSetsService {
             sum += i;
         }
         return sum;
+    }
+
+
+    //Ejercicio 4: Partición de conjunto. Dado un conjunto de n enteros se desea encontrar, si existe, una partición
+    //en dos subconjuntos disjuntos, tal que la suma de sus elementos sea la misma.
+
+    public HashSet<Integer>[] getPartitionIfItExists(){
+        HashSet<Integer>[] partition = new HashSet[2];
+        partition[0] = new HashSet<Integer>();
+        partition[1] = new HashSet<Integer>(set);
+        backtrackingPartition(partition);
+        return partition;
+    }
+
+    private void backtrackingPartition(HashSet<Integer>[] partition){
+        HashSet<Integer> leftPartition = partition[0];
+        HashSet<Integer> rightPartition = partition[1];
+        if(sumElements(leftPartition) == sumElements(rightPartition)){
+            return;
+        }
+       Iterator<Integer> iterator = rightPartition.iterator();
+        while(iterator.hasNext()){
+            Integer element = iterator.next();
+            rightPartition.remove(element);
+            leftPartition.add(element);
+            backtrackingPartition(partition);
+            leftPartition.remove(element);
+            rightPartition.add(element);
+        }
     }
 }
